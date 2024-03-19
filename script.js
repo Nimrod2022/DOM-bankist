@@ -53,17 +53,42 @@ document
     message.remove();
   });
 
-
-
 // Page navigation
 
-document.querySelector('.nav__links').addEventListener('click', function(e){
-  console.log(e.target)
-  if(e.target.classList.contains('nav__link')){
-    e.preventDefault()
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  console.log(e.target);
+  if (e.target.classList.contains('nav__link')) {
+    e.preventDefault();
     const id = e.target.getAttribute('href');
     console.log(id);
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
-
   }
-})
+});
+
+// Tab components
+
+const tabs = document.querySelectorAll('.operations__tab');
+
+const tabsContainer = document.querySelector('.operations__tab-container');
+
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+  console.log(clicked);
+  // guard clause
+  if (!clicked) return;
+  // active tab
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+  tabsContent.forEach(cont =>
+    cont.classList.remove('operations__content--active')
+  );
+
+  clicked.classList.add('operations__tab--active');
+
+  // Display content
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
